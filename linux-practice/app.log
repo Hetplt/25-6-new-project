@@ -1,0 +1,6 @@
+INFO Application started
+ERROR Database connection failed
+INFO User login
+WARNING Disk space low
+ERROR API timeout
+INFO Backup completed

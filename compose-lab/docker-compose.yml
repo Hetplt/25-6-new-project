@@ -1,0 +1,7 @@
+services:
+  web:
+    image: nginx
+
+  app:
+    image: alpine
+    command: sleep 3600

@@ -1,0 +1,4 @@
+i     # insert mode
+Esc
+:wq   # save and exit
+:q!   # exit without save
