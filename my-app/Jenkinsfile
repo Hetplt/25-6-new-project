@@ -1,0 +1,55 @@
+pipeline {
+
+    agent any
+
+    environment {
+        IMAGE_NAME = "hetptl/my-app:v1"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'git@github.com:Hetplt/25-6-new-project.git'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh '''
+                cd my-app
+                docker build -t $IMAGE_NAME .
+                '''
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                sh '''
+                docker stop my-app || true
+                docker rm my-app || true
+
+                docker run -d \
+                --name my-app \
+                -p 8081:80 \
+                $IMAGE_NAME
+                '''
+            }
+        }
+
+        stage('Kubernetes Deploy') {
+            steps {
+                sh '''
+                cd my-app
+                kubectl apply -f backend-deployment.yaml
+                kubectl apply -f backend-service.yaml
+                kubectl apply -f frontend-deployment.yaml
+                kubectl apply -f frontend-service.yaml
+                kubectl apply -f mongo-deployment.yaml
+                kubectl apply -f mongo-service.yaml
+                '''
+            }
+        }
+    }
+}
