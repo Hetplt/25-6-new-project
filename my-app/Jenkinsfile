@@ -8,12 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'git@github.com:Hetplt/25-6-new-project.git'
-            }
-        }
 
         stage('Docker Build') {
             steps {
